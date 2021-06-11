@@ -23,7 +23,7 @@ There are three main ways for addressing data inside R objects.
 
 * By index (subsetting)
 * By logical vector
-* By name
+* By name (columns only)
 
 Lets start by loading some sample data:
 
@@ -47,13 +47,11 @@ class(dat)
 
 R has loaded the contents of the .csv file into a variable called `dat` which is a `data frame`.
 
-We can compactly display the internal structure of a data frame using the  structure function `str`.
-
-```{r strDat}
-str(dat)
+```{r dimDat}
+dim(dat)
 ```
 
-The `str` function tell us that the data has 100 rows and 9 columns. It is also tell us that the data frame is made up of character `chr`, integer `int` and `numeric` vectors.
+The data has 100 rows and 9 columns.
 
 ```{r headDat}
 head(dat)
@@ -149,13 +147,6 @@ We usually use the `$` operator to address a column by name
 dat$Gender
 ```
 
-When we extract a single column from a data frame using the `$` operator, R will return a vector of that column class and not a data frame.
-
-```{r }
-class(dat$Gender)
-class(dat$BloodPressure)
-```
-
 Named addressing can also be used in square brackets.
 ```{r names_addressing_2}
 head(dat[, c('Age', 'Gender')])
@@ -166,45 +157,7 @@ head(dat[, c('Age', 'Gender')])
 > Best practice is to address columns by name. Often, you will create or delete columns and the column position will change.
 {: .callout}
 
-<br>
-
-Rows in an R data frame can also be named, and rows can also be addressed by their names. 
-<br>
-By default, row names are indices (i.e. position of each row in the data frame):
-
-```{r row_names_1}
-rownames(dat)
-```
-
-We can add row names as we read in the file with the `row.names` parameter in `read.csv`.<br>
-In the following example, we choose the first column *ID* to become the vector of row names of the data frame, with `row.names = 1`.
-
-```{r read_row_names_1}
-dat2 <- read.csv(file = 'data/sample.csv', header = TRUE, stringsAsFactors = FALSE, row.names=1)
-rownames(dat2)
-```
-
-We can now extract one or more rows using those row names:
-
-```{r row_names_addressing_1}
-dat2["Sub072", ]
-```
-
-```{r row_names_addressing_2}
-dat2[c("Sub009", "Sub072"), ]
-```
-
-Note that row names must be **unique**!
-<br>
-For example, if we try and read in the data setting the *Group* column as row names, R will throw an error because values in that column are duplicated:
-
-```{r read_row_names_2}
-dat2 <- read.csv(file = 'data/sample.csv', header = TRUE, stringsAsFactors = FALSE, row.names=3)
-```
-
-
-
-### Addressing by Logical Vector
+### Logical Indexing
 
 A logical vector contains only the special values `TRUE` and `FALSE`.
 
@@ -226,7 +179,7 @@ x < 10
 x %in% 1:10
 ```
 
-We can use logical vectors to select data from a data frame. This is often referred to as *logical indexing*.
+We can use logical vectors to select data from a data frame.
 
 ```{r logical_vectors_indexing}
 index <- dat$Group == 'Control'
@@ -256,11 +209,11 @@ plot(dat[dat$Group == 'Control', ]$BloodPressure)
 {: .challenge}
 
 
-### Combining Addressing and Assignment
+### Combining Indexing and Assignment
 
-The assignment operator `<-` can be combined with addressing.
+The assignment operator `<-` can be combined with indexing.
 
-```{r addressing and assignment}
+```{r indexing and assignment}
 x <- c(1, 2, 3, 11, 12, 13)
 x[x < 10] <- 0
 x
@@ -269,7 +222,7 @@ x
 > ## Updating a Subset of Values
 >
 > In this dataset, values for Gender have been recorded as both uppercase `M, F` and lowercase `m, f`.
-> Combine the addressing and assignment operations to convert all values to lowercase.
+> Combine the indexing and assignment operations to convert all values to lowercase.
 > 
 > > ## Solution
 > > ~~~

@@ -35,12 +35,10 @@ source("../bin/chunk-options.R")
 knitr_fig_path("01-starting-with-data-")
 ```
 
-We are studying inflammation in patients who have been given a new treatment for 
-arthritis, and need to analyze the first dozen data sets.
-The data sets are stored in [comma-separated values]({{ page.root }}/reference.html#comma-separated-values-csv)
-(CSV) format. Each row holds the observations for just one patient. Each column 
-holds the inflammation measured in a day, so we have a set of values in 
-successive days. The first few rows of our first file look like this:
+We are studying inflammation in patients who have been given a new treatment for arthritis,
+and need to analyze the first dozen data sets.
+The data sets are stored in [comma-separated values]({{ page.root }}/reference.html#comma-separated-values-csv) (CSV) format. Each row holds the observations for just one patient. Each column holds the inflammation measured in a day, so we have a set of values in successive days.
+The first few rows of our first file look like this:
 
 ```{r echo = FALSE}
 tmp <- read.csv("data/inflammation-01.csv", header = FALSE, nrows = 5)
@@ -56,38 +54,18 @@ We want to:
 
 To do all that, we'll have to learn a little bit about programming.
 
-## Getting started
-
-Since we want to import the file called `inflammation-01.csv` into our R
-environment, we need to be able to tell our computer where the file is. 
-To do this, we will create a "Project" with RStudio that contains the
-data we want to work with.
-The "Projects" interface in RStudio not only creates a working directory for 
-you, but also remembers its location (allowing you to quickly navigate to it).
-The interface also (optionally) preserves custom settings and open files to 
-make it easier to resume work after a break.
-
-### Create a new project
-
-* Under the `File` menu in RStudio, click on `New project`, choose
-  `New directory`, then `New project`
-* Enter a name for this new folder (or "directory") and choose a convenient
-  location for it. This will be your **working directory** for the rest of the
-  day (e.g., `~/Desktop/r-novice-inflammation`).
-* Click on `Create project`
-* Create a new file where we will type our scripts. Go to File > New File > R
-  script. Click the save icon on your toolbar and save your script as
-  "`script.R`".
-* Make sure you copy the data for the lesson into this folder, if they're
-  not there already.
-
-
 ### Loading Data
 
-Now that we are set up with an Rstudio project, we are sure that the
-and scripts we are using are all in our working directory.
-The data file should be located in the directory `data` inside the working 
-directory. Now we can load the data into R using `read.csv`:
+Let's import the file called `inflammation-01.csv` into our R environment. To import the file, first we need to tell our computer where the file is. We do that by choosing a working directory, that is, a local directory on our computer containing the files we need. This is very important in R. If we forget this step we'll get an error message saying that the file does not exist. We can set the working directory using the function `setwd`. For this example, we change the path to our new directory at the desktop:
+
+```{r, eval = FALSE}
+setwd("~/Desktop/r-novice-inflammation/")
+```
+
+Just like in the Unix Shell, we type the command and then press <kbd>Return</kbd> (or <kbd>Enter</kbd>).
+Alternatively you can change the working directory using the RStudio GUI using the menu option `Session` -> `Set Working Directory` -> `Choose Directory...`
+
+The data file is located in the directory `data` inside the working directory. Now we can load the data into R using `read.csv`:
 
 ```{r, results = "hide"}
 read.csv(file = "data/inflammation-01.csv", header = FALSE)
@@ -250,7 +228,7 @@ This is different from the way spreadsheets work.
 >
 > An alternative way to print the value of a variable is to use
 > `(` parentheses `)` around the assignment statement.
-> As an example: `(total_weight <- weight_kg*2.2 + weight_lb)` adds the values of `weight_kg*2.2` and `weight_lb`,
+> As an example: `(total_weight <- weight_kg + weight_lb)` adds the values of `weight_kg` and `weight_lb`,
 > assigns the result to the `total_weight`,
 > and finally prints the assigned value of the variable `total_weight`.
 {: .callout}
@@ -619,7 +597,7 @@ Let's take a look at the average inflammation over time.
 Recall that we already calculated these values above using `apply(dat, 2, mean)` and saved them in the variable `avg_day_inflammation`.
 Plotting the values is done with the function `plot`.
 
-```{r plot-avg-inflammation, fig.cap = "Scatter plot of average inflammation versus time demonstrating the result of using the plot function"}
+```{r plot-avg-inflammation}
 plot(avg_day_inflammation)
 ```
 
@@ -628,12 +606,12 @@ Above, we gave the function `plot` a vector of numbers corresponding to the aver
 The result is roughly a linear rise and fall, which is suspicious: based on other studies, we expect a sharper rise and slower fall.
 Let's have a look at two other statistics: the maximum and minimum inflammation per day.
 
-```{r plot-max-inflammation, fig.cap = "Scatter plot of maximum inflammation versus time demonstrating the result of using the plot function"}
+```{r plot-max-inflammation}
 max_day_inflammation <- apply(dat, 2, max)
 plot(max_day_inflammation)
 ```
 
-```{r plot-min-inflammation, fig.cap = "Scatter plot of minimum inflammation versus time demonstrating the result of using the plot function"}
+```{r plot-min-inflammation}
 min_day_inflammation <- apply(dat, 2, min)
 plot(min_day_inflammation)
 ```

@@ -1,0 +1,586 @@
+]0;/home/rstudiorstudio@a627c2bda1eb:~$ [Krstudio@a627c2bda1eb:~$ make lesson-md
+lib paths: /usr/local/lib/R/site-library, /usr/local/lib/R/library
+WARNING: One or more problems were discovered while enumerating dependencies.
+
+/home/rstudio/_episodes_rmd/01-starting-with-data.Rmd
+-----------------------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/01-starting-with-data.Rmd:510:1: unexpected '>'
+509: 
+510: >
+     ^
+
+/home/rstudio/_episodes_rmd/02-func-R.Rmd
+-----------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/02-func-R.Rmd:116:1: unexpected '>'
+115: 
+116: >
+     ^
+
+ERROR 2: /home/rstudio/_episodes_rmd/02-func-R.Rmd:138:1: unexpected '>'
+137: 
+138: >
+     ^
+
+ERROR 3: /home/rstudio/_episodes_rmd/02-func-R.Rmd:162:1: unexpected '>'
+161: 
+162: >
+     ^
+
+ERROR 4: /home/rstudio/_episodes_rmd/02-func-R.Rmd:201:1: unexpected '>'
+200: 
+201: >
+     ^
+
+/home/rstudio/_episodes_rmd/03-loops-R.Rmd
+------------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/03-loops-R.Rmd:175:1: unexpected '>'
+174: 
+175: >
+     ^
+
+ERROR 2: /home/rstudio/_episodes_rmd/03-loops-R.Rmd:181:1: unexpected '>'
+180: 
+181: >
+     ^
+
+ERROR 3: /home/rstudio/_episodes_rmd/03-loops-R.Rmd:210:1: unexpected '>'
+209: 
+210: >
+     ^
+
+ERROR 4: /home/rstudio/_episodes_rmd/03-loops-R.Rmd:242:1: unexpected '>'
+241: 
+242: >
+     ^
+
+ERROR 5: /home/rstudio/_episodes_rmd/03-loops-R.Rmd:248:1: unexpected '>'
+247: 
+248: >
+     ^
+
+/home/rstudio/_episodes_rmd/04-cond.Rmd
+---------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/04-cond.Rmd:209:1: unexpected '>'
+208: 
+209: >
+     ^
+
+ERROR 2: /home/rstudio/_episodes_rmd/04-cond.Rmd:216:1: unexpected '>'
+215: 
+216: >
+     ^
+
+ERROR 3: /home/rstudio/_episodes_rmd/04-cond.Rmd:222:1: unexpected '>'
+221: 
+222: >
+     ^
+
+ERROR 4: /home/rstudio/_episodes_rmd/04-cond.Rmd:237:1: unexpected '>'
+236: 
+237: >
+     ^
+
+ERROR 5: /home/rstudio/_episodes_rmd/04-cond.Rmd:278:1: unexpected '>'
+277: 
+278: >
+     ^
+
+/home/rstudio/_episodes_rmd/10-supp-addressing-data.Rmd
+-------------------------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/10-supp-addressing-data.Rmd:75:1: unexpected '>'
+74: 
+75: >
+    ^
+
+ERROR 2: /home/rstudio/_episodes_rmd/10-supp-addressing-data.Rmd:88:1: unexpected '>'
+87: 
+88: >
+    ^
+
+ERROR 3: /home/rstudio/_episodes_rmd/10-supp-addressing-data.Rmd:109:1: unexpected '>'
+108: 
+109: >
+     ^
+
+ERROR 4: /home/rstudio/_episodes_rmd/10-supp-addressing-data.Rmd:128:1: unexpected '>'
+127: 
+128: >
+     ^
+
+ERROR 5: /home/rstudio/_episodes_rmd/10-supp-addressing-data.Rmd:250:1: unexpected '>'
+249: 
+250: >
+     ^
+
+/home/rstudio/_episodes_rmd/12-supp-factors.Rmd
+-----------------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/12-supp-factors.Rmd:41:1: unexpected '>'
+40: 
+41: >
+    ^
+
+ERROR 2: /home/rstudio/_episodes_rmd/12-supp-factors.Rmd:167:1: unexpected '>'
+166: 
+167: >
+     ^
+
+ERROR 3: /home/rstudio/_episodes_rmd/12-supp-factors.Rmd:173:1: unexpected '>'
+172: 
+173: >
+     ^
+
+ERROR 4: /home/rstudio/_episodes_rmd/12-supp-factors.Rmd:197:1: unexpected '>'
+196: 
+197: >
+     ^
+
+ERROR 5: /home/rstudio/_episodes_rmd/12-supp-factors.Rmd:221:1: unexpected '>'
+220: 
+221: >
+     ^
+
+/home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd
+-------------------------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd:299:1: unexpected '>'
+298: 
+299: >
+     ^
+
+ERROR 2: /home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd:406:1: unexpected '>'
+405: 
+406: >
+     ^
+
+ERROR 3: /home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd:410:1: unexpected '>'
+409: 
+410: >
+     ^
+
+ERROR 4: /home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd:431:1: unexpected '>'
+430: 
+431: >
+     ^
+
+ERROR 5: /home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd:435:1: unexpected '>'
+434: 
+435: >
+     ^
+
+ERROR 6: /home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd:542:1: unexpected '>'
+541: 
+542: >
+     ^
+
+Please see `?renv::dependencies` for more information.
+renv (0.10.0 -> 0.12.5) [CRAN]
+Installing 1 packages: renv
+Installing package into ‘/usr/local/lib/R/site-library’
+(as ‘lib’ is unspecified)
+trying URL 'https://packagemanager.rstudio.com/cran/__linux__/focal/2021-02-17/src/contrib/renv_0.12.5.tar.gz'
+Content type 'binary/octet-stream' length 1080509 bytes (1.0 MB)
+==================================================
+downloaded 1.0 MB
+
+* installing *binary* package ‘renv’ ...
+* DONE (renv)
+
+The downloaded source packages are in
+	‘/tmp/Rtmp4WfcaO/downloaded_packages’
+Loading required package: knitr
+
+
+processing file: _episodes_rmd/11-supp-read-write-csv.Rmd
+  |                                                                              |                                                                      |   0%  |                                                                              |..                                                                    |   3%
+  ordinary text without R code
+
+  |                                                                              |.....                                                                 |   6%
+label: unnamed-chunk-1 (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |                                                                              |.......                                                               |  10%
+  ordinary text without R code
+
+  |                                                                              |.........                                                             |  13%
+label: readData
+  |                                                                              |...........                                                           |  16%
+  ordinary text without R code
+
+  |                                                                              |..............                                                        |  19%
+label: headerFALSE
+  |                                                                              |................                                                      |  23%
+  ordinary text without R code
+
+  |                                                                              |..................                                                    |  26%
+label: stringsAsFactorsTRUE
+  |                                                                              |....................                                                  |  29%
+  ordinary text without R code
+
+  |                                                                              |.......................                                               |  32%
+label: unnamed-chunk-2
+  |                                                                              |.........................                                             |  35%
+  ordinary text without R code
+
+  |                                                                              |...........................                                           |  39%
+label: StringsAsFactorFALSE
+  |                                                                              |.............................                                         |  42%
+  ordinary text without R code
+
+  |                                                                              |................................                                      |  45%
+label: as.is1
+  |                                                                              |..................................                                    |  48%
+  ordinary text without R code
+
+  |                                                                              |....................................                                  |  52%
+label: as.isResults
+  |                                                                              |......................................                                |  55%
+  ordinary text without R code
+
+  |                                                                              |.........................................                             |  58%
+label: Challenge (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |                                                                              |...........................................                           |  61%
+  ordinary text without R code
+
+  |                                                                              |.............................................                         |  65%
+label: strip.whiteFALSE
+  |                                                                              |...............................................                       |  68%
+  ordinary text without R code
+
+  |                                                                              |..................................................                    |  71%
+label: strip.whiteTRUE
+  |                                                                              |....................................................                  |  74%
+  ordinary text without R code
+
+  |                                                                              |......................................................                |  77%
+label: writeData
+  |                                                                              |........................................................              |  81%
+  ordinary text without R code
+
+  |                                                                              |...........................................................           |  84%
+label: row.namesFALSE
+  |                                                                              |.............................................................         |  87%
+  ordinary text without R code
+
+  |                                                                              |...............................................................       |  90%
+label: naDefault
+  |                                                                              |.................................................................     |  94%
+  ordinary text without R code
+
+  |                                                                              |....................................................................  |  97%
+label: naUserSelected
+  |                                                                              |......................................................................| 100%
+  ordinary text without R code
+
+
+Error in file(con, "w") : cannot open the connection
+Calls: source ... generate_md_episodes -> <Anonymous> -> write_utf8 -> writeLines -> file
+In addition: Warning message:
+In file(con, "w") :
+  cannot open file '_episodes/11-supp-read-write-csv.md': Permission denied
+Execution halted
+make: *** [Makefile:131: _episodes/11-supp-read-write-csv.md] Error 1
+makse[K[Ke lesson-md
+lib paths: /usr/local/lib/R/site-library, /usr/local/lib/R/library
+WARNING: One or more problems were discovered while enumerating dependencies.
+
+/home/rstudio/_episodes_rmd/01-starting-with-data.Rmd
+-----------------------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/01-starting-with-data.Rmd:510:1: unexpected '>'
+509: 
+510: >
+     ^
+
+/home/rstudio/_episodes_rmd/02-func-R.Rmd
+-----------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/02-func-R.Rmd:116:1: unexpected '>'
+115: 
+116: >
+     ^
+
+ERROR 2: /home/rstudio/_episodes_rmd/02-func-R.Rmd:138:1: unexpected '>'
+137: 
+138: >
+     ^
+
+ERROR 3: /home/rstudio/_episodes_rmd/02-func-R.Rmd:162:1: unexpected '>'
+161: 
+162: >
+     ^
+
+ERROR 4: /home/rstudio/_episodes_rmd/02-func-R.Rmd:201:1: unexpected '>'
+200: 
+201: >
+     ^
+
+/home/rstudio/_episodes_rmd/03-loops-R.Rmd
+------------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/03-loops-R.Rmd:175:1: unexpected '>'
+174: 
+175: >
+     ^
+
+ERROR 2: /home/rstudio/_episodes_rmd/03-loops-R.Rmd:181:1: unexpected '>'
+180: 
+181: >
+     ^
+
+ERROR 3: /home/rstudio/_episodes_rmd/03-loops-R.Rmd:210:1: unexpected '>'
+209: 
+210: >
+     ^
+
+ERROR 4: /home/rstudio/_episodes_rmd/03-loops-R.Rmd:242:1: unexpected '>'
+241: 
+242: >
+     ^
+
+ERROR 5: /home/rstudio/_episodes_rmd/03-loops-R.Rmd:248:1: unexpected '>'
+247: 
+248: >
+     ^
+
+/home/rstudio/_episodes_rmd/04-cond.Rmd
+---------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/04-cond.Rmd:209:1: unexpected '>'
+208: 
+209: >
+     ^
+
+ERROR 2: /home/rstudio/_episodes_rmd/04-cond.Rmd:216:1: unexpected '>'
+215: 
+216: >
+     ^
+
+ERROR 3: /home/rstudio/_episodes_rmd/04-cond.Rmd:222:1: unexpected '>'
+221: 
+222: >
+     ^
+
+ERROR 4: /home/rstudio/_episodes_rmd/04-cond.Rmd:237:1: unexpected '>'
+236: 
+237: >
+     ^
+
+ERROR 5: /home/rstudio/_episodes_rmd/04-cond.Rmd:278:1: unexpected '>'
+277: 
+278: >
+     ^
+
+/home/rstudio/_episodes_rmd/10-supp-addressing-data.Rmd
+-------------------------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/10-supp-addressing-data.Rmd:75:1: unexpected '>'
+74: 
+75: >
+    ^
+
+ERROR 2: /home/rstudio/_episodes_rmd/10-supp-addressing-data.Rmd:88:1: unexpected '>'
+87: 
+88: >
+    ^
+
+ERROR 3: /home/rstudio/_episodes_rmd/10-supp-addressing-data.Rmd:109:1: unexpected '>'
+108: 
+109: >
+     ^
+
+ERROR 4: /home/rstudio/_episodes_rmd/10-supp-addressing-data.Rmd:128:1: unexpected '>'
+127: 
+128: >
+     ^
+
+ERROR 5: /home/rstudio/_episodes_rmd/10-supp-addressing-data.Rmd:250:1: unexpected '>'
+249: 
+250: >
+     ^
+
+/home/rstudio/_episodes_rmd/12-supp-factors.Rmd
+-----------------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/12-supp-factors.Rmd:41:1: unexpected '>'
+40: 
+41: >
+    ^
+
+ERROR 2: /home/rstudio/_episodes_rmd/12-supp-factors.Rmd:167:1: unexpected '>'
+166: 
+167: >
+     ^
+
+ERROR 3: /home/rstudio/_episodes_rmd/12-supp-factors.Rmd:173:1: unexpected '>'
+172: 
+173: >
+     ^
+
+ERROR 4: /home/rstudio/_episodes_rmd/12-supp-factors.Rmd:197:1: unexpected '>'
+196: 
+197: >
+     ^
+
+ERROR 5: /home/rstudio/_episodes_rmd/12-supp-factors.Rmd:221:1: unexpected '>'
+220: 
+221: >
+     ^
+
+/home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd
+-------------------------------------------------------
+
+ERROR 1: /home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd:299:1: unexpected '>'
+298: 
+299: >
+     ^
+
+ERROR 2: /home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd:406:1: unexpected '>'
+405: 
+406: >
+     ^
+
+ERROR 3: /home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd:410:1: unexpected '>'
+409: 
+410: >
+     ^
+
+ERROR 4: /home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd:431:1: unexpected '>'
+430: 
+431: >
+     ^
+
+ERROR 5: /home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd:435:1: unexpected '>'
+434: 
+435: >
+     ^
+
+ERROR 6: /home/rstudio/_episodes_rmd/13-supp-data-structures.Rmd:542:1: unexpected '>'
+541: 
+542: >
+     ^
+
+Please see `?renv::dependencies` for more information.
+renv (0.10.0 -> 0.12.5) [CRAN]
+Installing 1 packages: renv
+Installing package into ‘/usr/local/lib/R/site-library’
+(as ‘lib’ is unspecified)
+trying URL 'https://packagemanager.rstudio.com/cran/__linux__/focal/2021-02-17/src/contrib/renv_0.12.5.tar.gz'
+Content type 'binary/octet-stream' length 1080509 bytes (1.0 MB)
+==================================================
+downloaded 1.0 MB
+
+* installing *binary* package ‘renv’ ...
+* DONE (renv)
+
+The downloaded source packages are in
+	‘/tmp/RtmpFms69v/downloaded_packages’
+Loading required package: knitr
+
+
+processing file: _episodes_rmd/11-supp-read-write-csv.Rmd
+  |                                                                              |                                                                      |   0%  |                                                                              |..                                                                    |   3%
+  ordinary text without R code
+
+  |                                                                              |.....                                                                 |   6%
+label: unnamed-chunk-1 (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |                                                                              |.......                                                               |  10%
+  ordinary text without R code
+
+  |                                                                              |.........                                                             |  13%
+label: readData
+  |                                                                              |...........                                                           |  16%
+  ordinary text without R code
+
+  |                                                                              |..............                                                        |  19%
+label: headerFALSE
+  |                                                                              |................                                                      |  23%
+  ordinary text without R code
+
+  |                                                                              |..................                                                    |  26%
+label: stringsAsFactorsTRUE
+  |                                                                              |....................                                                  |  29%
+  ordinary text without R code
+
+  |                                                                              |.......................                                               |  32%
+label: unnamed-chunk-2
+  |                                                                              |.........................                                             |  35%
+  ordinary text without R code
+
+  |                                                                              |...........................                                           |  39%
+label: StringsAsFactorFALSE
+  |                                                                              |.............................                                         |  42%
+  ordinary text without R code
+
+  |                                                                              |................................                                      |  45%
+label: as.is1
+  |                                                                              |..................................                                    |  48%
+  ordinary text without R code
+
+  |                                                                              |....................................                                  |  52%
+label: as.isResults
+  |                                                                              |......................................                                |  55%
+  ordinary text without R code
+
+  |                                                                              |.........................................                             |  58%
+label: Challenge (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |                                                                              |...........................................                           |  61%
+  ordinary text without R code
+
+  |                                                                              |.............................................                         |  65%
+label: strip.whiteFALSE
+  |                                                                              |...............................................                       |  68%
+  ordinary text without R code
+
+  |                                                                              |..................................................                    |  71%
+label: strip.whiteTRUE
+  |                                                                              |....................................................                  |  74%
+  ordinary text without R code
+
+  |                                                                              |......................................................                |  77%
+label: writeData
+  |                                                                              |........................................................              |  81%
+  ordinary text without R code
+
+  |                                                                              |...........................................................           |  84%
+label: row.namesFALSE
+  |                                                                              |.............................................................         |  87%
+  ordinary text without R code
+
+  |                                                                              |...............................................................       |  90%
+label: naDefault
+  |                                                                              |.................................................................     |  94%
+  ordinary text without R code
+
+  |                                                                              |....................................................................  |  97%
+label: naUserSelected
+  |                                                                              |......................................................................| 100%
+  ordinary text without R code
+
+
+Error in file(con, "w") : cannot open the connection
+Calls: source ... generate_md_episodes -> <Anonymous> -> write_utf8 -> writeLines -> file
+In addition: Warning message:
+In file(con, "w") :
+  cannot open file '_episodes/11-supp-read-write-csv.md': Permission denied
+Execution halted
+make: *** [Makefile:131: _episodes/11-supp-read-write-csv.md] Error 1
+]0;/home/rstudiorstudio@3eb9f5ee124a:~$ make lesson-md[1@s[1@u[1@d[1@o[1@ [C[C[C[C[C[C[C[C[C[C[C[C[C[C
+[sudo] password for rstudio: 
+rstudio is not in the sudoers file.  This incident will be reported.
+]0;/home/rstudiorstudio@3eb9f5ee124a:~$ 

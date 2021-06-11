@@ -92,20 +92,8 @@ It would be ideal if `analyze` would either save or not save the plots based on 
 
 ### Conditionals
 
-In order to update our function to decide between saving or not, we need to write code that automatically decides between multiple options. The computer can make these deicisons through logical comparisons.
-
-```{r}
-num <- 37
-num > 100
-```
-
-As 37 is not greater than 100, this returns a `FALSE` object. And as you likely guessed, the opposite of `FALSE` is `TRUE`.
-
-```{r}
-num < 100
-```
-
-We pair these logical comparison tools with what R calls a [conditional statement]({{ page.root }}/reference.html#conditional-statement), and it looks like this:
+In order to update our function to decide between saving or not, we need to write code that automatically decides between multiple options.
+The tool R gives us for doing this is called a [conditional statement]({{ page.root }}/reference.html#conditional-statement), and looks like this:
 
 ```{r, results='hold'}
 num <- 37
@@ -118,8 +106,8 @@ print("done")
 ```
 
 The second line of this code uses an `if` statement to tell R that we want to make a choice.
-If the following test is `TRUE`, the body of the `if` (i.e., the lines in the curly braces underneath it) are executed.
-If the test is `FALSE`, the body of the `else` is executed instead.
+If the following test is true, the body of the `if` (i.e., the lines in the curly braces underneath it) are executed.
+If the test is false, the body of the `else` is executed instead.
 Only one or the other is ever executed:
 
 <img src="../fig/python-flowchart-conditional.svg" alt="Executing a Conditional" />
@@ -198,33 +186,6 @@ if (1 > 0 || -1 > 0) {
 ```
 
 In this case, "either" means "either or both", not "either one or the other but not both".
-
-> ## Special case of the `NA` variable
-> 
-> You may remember from the previous lesson that R has a special variable, `NA`,
-> for designating missing values. Because it represents the absence of a value,
-> we will not be able to test its equality or inequality with another value.
-> Such tests always return `NA`:
-> ```{r test-equal-NA}
-> a <- NA
-> a == 1
-> a == NA
-> ```
-> We need to be particularly careful in tests because trying to compare a `NA`
-> value will result in an error:
-> ```{r if-NA}
-> if (a == NA) {
->   print("Hi!")
-> }
-> ```
-> To solve this issue, we need to use the dedicated `is.na()` function:
-> ```{r is.na}
-> is.na(a)
-> if (is.na(a)) {
->   print("Hi!")
-> }
-> ```
-{: .callout}
 
 > ## Choosing Plots Based on Data
 >

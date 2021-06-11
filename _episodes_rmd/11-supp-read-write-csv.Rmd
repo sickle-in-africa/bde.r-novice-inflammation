@@ -31,7 +31,13 @@ and explore the [arguments]({{ page.root }}/reference.html#argument) that allow 
 
 ### Read a .csv and Explore the Arguments
 
-Let's start by opening a .csv file containing information on the speeds at which cars of different colors were clocked in 45 mph zones in the four-corners states (`CarSpeeds.csv`). We will use the built in `read.csv(...)` [function call]({{ page.root }}/reference.html#function-call), which reads the data in as a data frame, and assign the data frame to a variable (using `<-`) so that it is stored in R's memory. Then we will explore some of the basic arguments that can be supplied to the function. First, open the RStudio project containing the scripts and data you were working on in episode 'Analyzing Patient Data'.
+Let's start by opening a .csv file containing information on the speeds at which cars of different colors were clocked in 45 mph zones in the four-corners states (`CarSpeeds.csv`). We will use the built in `read.csv(...)` [function call]({{ page.root }}/reference.html#function-call), which reads the data in as a data frame, and assign the data frame to a variable (using `<-`) so that it is stored in R's memory. Then we will explore some of the basic arguments that can be supplied to the function.
+
+```{r setwd, eval=FALSE}
+# First, set your working directory (see episode 'Analyzing Patient Data' for more
+# info)
+setwd("~/Desktop/r-novice-inflammation/")
+```
 
 ```{r readData}
 # Import the data and look at the first six rows
@@ -68,7 +74,7 @@ Clearly this is not the desired behavior for this data set, but it may be useful
 
 ### The `stringsAsFactors` Argument
 
-In older versions of R (prior to 4.0) this was perhaps the most important argument in `read.csv()`, particularly if you were working with categorical data. This is because the default behavior of R was to convert character [string]({{ page.root }}/reference.html#string)s into factors, which may make it difficult to do such things as replace values. It is important to be aware of this behaviour, which we will demonstrate. For example, let's say we find out that the data collector was color blind, and accidentally recorded green cars as being blue. In order to correct the data set, let's replace 'Blue' with 'Green' in the `$Color` column:
+This is perhaps the most important argument in `read.csv()`, particularly if you are working with categorical data. This is because the default behavior of R is to convert character [string]({{ page.root }}/reference.html#string)s into factors, which may make it difficult to do such things as replace values. For example, let's say we find out that the data collector was color blind, and accidentally recorded green cars as being blue. In order to correct the data set, let's replace 'Blue' with 'Green' in the `$Color` column:
 
 ```{r stringsAsFactorsTRUE}
 # Here we will use R's `ifelse` function, in which we provide the test phrase,
@@ -77,7 +83,7 @@ In older versions of R (prior to 4.0) this was perhaps the most important argume
 # using '<-'
 
 # First - reload the data with a header
-carSpeeds <- read.csv(file = 'data/car-speeds.csv', stringsAsFactors = TRUE)
+carSpeeds <- read.csv(file = 'data/car-speeds.csv')
 
 carSpeeds$Color <- ifelse(carSpeeds$Color == 'Blue', 'Green', carSpeeds$Color)
 carSpeeds$Color
@@ -94,9 +100,6 @@ we are interested in. `str()` will be reviewed a little more in the lesson
 [Data Types and Structures]({{ page.root }}/13-supp-data-structures/).
 
 ```{r}
-# Reload the data with a header (the previous ifelse call modifies attributes)
-carSpeeds <- read.csv(file = 'data/car-speeds.csv', stringsAsFactors = TRUE)
-
 str(carSpeeds)
 ```
 
@@ -111,7 +114,7 @@ carSpeeds$Color <- ifelse(carSpeeds$Color == 'Blue', 'Green', carSpeeds$Color)
 carSpeeds$Color
 ```
 
-That's better! And we can see how the data now is read as character instead of factor. From R version 4.0 onwards we do not have to specify `stringsAsFactors=FALSE`, this is the default behavior. 
+That's better! And we can see how the data now is read as character instead of factor.
 
 
 ### The `as.is` Argument
@@ -198,35 +201,6 @@ unique(carSpeeds$Color)
 ```
 
 That's better!
-
-> ## Specify Missing Data When Loading
->
-> It is common for data sets to have missing values, or mistakes.
-> The convention for recording missing values often depends on the individual who collected the data and can be recorded as `n.a.`, `--`, or empty cells " ". 
-> R recognises the reserved character string `NA` as a missing value, but not some of the examples above.
-> Let's say the inflamation scale in the data set we used earlier `inflammation-01.csv` actually starts at `1` for no inflamation and the zero values (`0`) were a missed observation.
-> Looking at the `?read.csv` help page is there an argument we could use to ensure all zeros (`0`) are read in as `NA`?
-> Perhaps, in the `car-speeds.csv` data contains mistakes and the person measuring the car speeds could not accurately distinguish between "Black or "Blue" cars.
-> Is there a way to specify more than one 'string', such as "Black" and "Blue", to be replaced by `NA`
->
-> > ## Solution
-> > 
-> > ~~~
-> > read.csv(file = "data/inflammation-01.csv", na.strings = "0")
-> > ~~~
-> > {: .language-r}
-> > 
-> > or , in `car-speeds.csv` use a character vector for multiple values.
-> > 
-> > ~~~
-> > read.csv(
-> >   file = 'data/car-speeds.csv',
-> >   na.strings = c("Black", "Blue")
-> > )
-> > ~~~
-> > {: .language-r}
-> {: .solution}
-{: .challenge}
 
 ### Write a New .csv and Explore the Arguments
 

@@ -1,5 +1,6 @@
 ---
 layout: page
-title: About Sickle In Africa
+title: About
+permalink: /about/
 ---
-{% include sickleinafrica.html %}
+{% include carpentries.html %}

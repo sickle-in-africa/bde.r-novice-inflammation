@@ -1,5 +1,7 @@
 ---
+layout: page
 title: Discussion
+permalink: /discuss/
 ---
 
 ## Error returned when attempting to calculate mean of data.frame rows
