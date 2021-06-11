@@ -6,7 +6,8 @@
 .jekyll-cache/
 .jekyll-metadata
 __pycache__
-_episodes
+#_episodes
+_episodes_rmd
 _site
 link_res*.csv
 
