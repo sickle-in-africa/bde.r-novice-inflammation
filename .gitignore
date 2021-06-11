@@ -54,7 +54,8 @@ vignettes/*.pdf
 
 
 # Markdown files for episodes
-_episodes/
+#_episodes/
+_episodes_rmd
 
 .bundle/
 .vendor/
