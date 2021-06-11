@@ -1,0 +1,22 @@
+I"‰<p>This lesson assumes you have current versions of the following installed on your computer:</p>
+
+<ol>
+  <li>the <a href="https://cran.r-project.org/mirrors.html">R software</a> itself, and</li>
+  <li><a href="https://www.rstudio.com/products/rstudio/download/#download">RStudio Desktop</a>.</li>
+</ol>
+
+<p>You also need to download some files to follow this lesson:</p>
+
+<ol>
+  <li>Make a new folder in your Desktop called <code class="language-plaintext highlighter-rouge">r-novice-inflammation</code>.</li>
+  <li>Download <a href="./data/r-novice-inflammation-data.zip">r-novice-inflammation-data.zip</a>
+and move the file to this folder.</li>
+  <li>If itâ€™s not unzipped yet, double-click on it to unzip it. You should end up
+with a new folder called <code class="language-plaintext highlighter-rouge">data</code>.</li>
+  <li>You can access this folder from the Unix shell with:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cd</span>
+<span class="nv">$ </span><span class="nb">cd </span>Desktop/r-novice-inflammation/data
+</code></pre></div></div>
+:ET

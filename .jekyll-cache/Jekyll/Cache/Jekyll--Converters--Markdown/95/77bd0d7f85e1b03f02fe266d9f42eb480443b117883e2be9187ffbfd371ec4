@@ -1,0 +1,207 @@
+I"�D<p>Why should you make your own R packages?</p>
+
+<p><strong>Reproducible research!</strong></p>
+
+<p>An R package is the <strong>basic unit of reusable code</strong>.
+If you want to reuse code later or want others to be able to use your code, you should put it in a package.</p>
+
+<p>An R package requires four components:</p>
+
+<ul>
+  <li>a DESCRIPTION file with metadata about the package</li>
+  <li>an R directory with the code</li>
+  <li>a man directory with documentation (we will create this automatically)</li>
+  <li>a NAMESPACE file listing user-level functions in the package (we will also create this automatically)</li>
+</ul>
+
+<p>*There are other optional components. <a href="https://devguide.ropensci.org/building.html">rOpenSci community</a> has written a science-focused guidebook for package development, while <a href="http://r-pkgs.had.co.nz/description.html">the “R packages” book</a> contains all the fundamental information.</p>
+
+<h3 id="description-file">DESCRIPTION file</h3>
+
+<div class="language-plaintext source highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Package: Package name
+Title: Brief package description
+Description: Longer package description
+Version: Version number(major.minor.patch)
+Author: Name and email of package creator
+Maintainer: Name and email of package maintainer (who to contact with issues)
+License: Abbreviation for an open source license
+</code></pre></div></div>
+
+<p>The package name can only contain letters and numbers and has to start with a letter.</p>
+
+<h3 id="r-files">.R files</h3>
+
+<p>Functions don’t all have to be in one file or each in separate files.
+How you organize them is up to you.
+Suggestion: organize in a logical manner so that you know which file holds which functions.</p>
+
+<h3 id="making-your-first-r-package">Making your first R package</h3>
+
+<p>Let’s turn our temperature conversion functions into an R package.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fahrenheit_to_celsius</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">temp_F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="c1"># Converts Fahrenheit to Celsius</span><span class="w">
+  </span><span class="n">temp_C</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">temp_F</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">32</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">9</span><span class="w">
+  </span><span class="nf">return</span><span class="p">(</span><span class="n">temp_C</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">celsius_to_kelvin</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">temp_C</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="c1"># Converts Celsius to Kelvin</span><span class="w">
+  </span><span class="n">temp_K</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">temp_C</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">273.15</span><span class="w">
+  </span><span class="nf">return</span><span class="p">(</span><span class="n">temp_K</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fahrenheit_to_kelvin</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">temp_F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="c1"># Converts Fahrenheit to Kelvin using fahrenheit_to_celsius() and celsius_to_kelvin()</span><span class="w">
+  </span><span class="n">temp_C</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fahrenheit_to_celsius</span><span class="p">(</span><span class="n">temp_F</span><span class="p">)</span><span class="w">
+  </span><span class="n">temp_K</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">celsius_to_kelvin</span><span class="p">(</span><span class="n">temp_C</span><span class="p">)</span><span class="w">
+  </span><span class="nf">return</span><span class="p">(</span><span class="n">temp_K</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We will use the <a href="https://cran.r-project.org/package=devtools"><code class="language-plaintext highlighter-rouge">devtools</code></a> and <a href="https://cran.r-project.org/package=roxygen2"><code class="language-plaintext highlighter-rouge">roxygen2</code></a> packages, which make creating packages in R relatively simple. Both can be installed from CRAN like this:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">install.packages</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"devtools"</span><span class="p">,</span><span class="w"> </span><span class="s2">"roxygen2"</span><span class="p">))</span><span class="w">  </span><span class="c1"># installations can be `c`ombined</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="s2">"devtools"</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="s2">"roxygen2"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Set your working directory, and then use the <code class="language-plaintext highlighter-rouge">create</code> function to start making your package.
+Keep the name simple and unique.</p>
+<ul>
+  <li>package_to_convert_temperatures_between_kelvin_fahrenheit_and_celsius (BAD)</li>
+  <li>tempConvert (GOOD)</li>
+</ul>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">setwd</span><span class="p">(</span><span class="n">parentDirectory</span><span class="p">)</span><span class="w">
+</span><span class="n">create_package</span><span class="p">(</span><span class="s2">"tempConvert"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Add our functions to the R directory.
+Place each function into a separate R script and add documentation like this:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">#' Converts Fahrenheit to Celsius</span><span class="w">
+</span><span class="cd">#'</span><span class="w">
+</span><span class="cd">#' This function converts input temperatures in Fahrenheit to Celsius.</span><span class="w">
+</span><span class="cd">#' @param temp_F The temperature in Fahrenheit.</span><span class="w">
+</span><span class="cd">#' @return The temperature in Celsius.</span><span class="w">
+</span><span class="cd">#' @export</span><span class="w">
+</span><span class="cd">#' @examples</span><span class="w">
+</span><span class="cd">#' fahrenheit_to_kelvin(32)</span><span class="w">
+
+</span><span class="n">fahrenheit_to_celsius</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">temp_F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">temp_C</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">temp_F</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">32</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">9</span><span class="w">
+  </span><span class="nf">return</span><span class="p">(</span><span class="n">temp_C</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">roxygen2</code> package reads lines that begin with <code class="language-plaintext highlighter-rouge">#'</code> as comments to create the documentation for your package.
+Descriptive tags are preceded with the <code class="language-plaintext highlighter-rouge">@</code> symbol. For example, <code class="language-plaintext highlighter-rouge">@param</code> has information about the input parameters for the function.
+Now, we will use <code class="language-plaintext highlighter-rouge">roxygen2</code> to convert our documentation to the standard R format.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">setwd</span><span class="p">(</span><span class="s2">"./tempConvert"</span><span class="p">)</span><span class="w">
+</span><span class="n">document</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Take a look at the package directory now.
+The /man directory has a .Rd file for each .R file with properly formatted documentation.</p>
+
+<p>Overall, your package directory should look something like this:</p>
+
+<p><img src="../fig/R-package-structure.svg" alt="R Package Structure" width="500" /></p>
+
+<p>Now, let’s load the package and take a look at the documentation.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">setwd</span><span class="p">(</span><span class="s2">".."</span><span class="p">)</span><span class="w">
+</span><span class="n">install</span><span class="p">(</span><span class="s2">"tempConvert"</span><span class="p">)</span><span class="w">
+
+</span><span class="o">?</span><span class="n">fahrenheit_to_kelvin</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Notice there is now a tempConvert environment that is the parent environment to the global environment.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">search</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now that our package is loaded, let’s try out some of the functions.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fahrenheit_to_celsius</span><span class="p">(</span><span class="m">32</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] 0
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">celsius_to_kelvin</span><span class="p">(</span><span class="m">-273.15</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] 0
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fahrenheit_to_kelvin</span><span class="p">(</span><span class="m">-459.67</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] 0
+</code></pre></div></div>
+
+<blockquote class="challenge">
+  <h2 id="creating-a-package-for-distribution">Creating a Package for Distribution</h2>
+
+  <ol>
+    <li>Create some new functions for your tempConvert package to convert from Celsius to Fahrenheit or from Kelvin to Celsius or Fahrenheit.</li>
+    <li>Create a package for our <code class="language-plaintext highlighter-rouge">analyze</code> function so that it will be easy to load when more data arrives.</li>
+  </ol>
+
+  <blockquote class="solution">
+    <h2 id="solution">Solution</h2>
+
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">#' Converts Kelvin to Celsius</span><span class="w">
+</span><span class="cd">#'</span><span class="w">
+</span><span class="cd">#' This function converts input temperatures in Kelvin to Celsius.</span><span class="w">
+</span><span class="cd">#' @param temp_K The temperature in Kelvin.</span><span class="w">
+</span><span class="cd">#' @return The temperature in Celsius.</span><span class="w">
+</span><span class="cd">#' @export</span><span class="w">
+</span><span class="cd">#' @examples</span><span class="w">
+</span><span class="cd">#' kelvin_to_celsius(273.15)</span><span class="w">
+
+</span><span class="n">kelvin_to_celsius</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">temp_K</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">temp_C</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">temp_K</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">273.15</span><span class="w">
+  </span><span class="n">temp_C</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">#' Converts Celsius to Fahrenheit</span><span class="w">
+</span><span class="cd">#'</span><span class="w">
+</span><span class="cd">#' This function converts input temperatures in Celsius to Fahrenheit.</span><span class="w">
+</span><span class="cd">#' @param temp_C The temperature in Celsius.</span><span class="w">
+</span><span class="cd">#' @return The temperature in Fahrenheit.</span><span class="w">
+</span><span class="cd">#' @export</span><span class="w">
+</span><span class="cd">#' @examples</span><span class="w">
+</span><span class="cd">#' celsius_to_fahrenheit(0)</span><span class="w">
+
+</span><span class="n">celsius_to_fahrenheit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">temp_C</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">temp_F</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">temp_C</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">9</span><span class="o">/</span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">32</span><span class="w">
+  </span><span class="n">temp_F</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">#' Converts Kelvin to Fahrenheit</span><span class="w">
+</span><span class="cd">#'</span><span class="w">
+</span><span class="cd">#' This function converts input temperatures in Kelvin to Fahrenheit.</span><span class="w">
+</span><span class="cd">#' @param temp_K The temperature in Kelvin.</span><span class="w">
+</span><span class="cd">#' @return The temperature in Fahrenheit.</span><span class="w">
+</span><span class="cd">#' @export</span><span class="w">
+</span><span class="cd">#' @examples</span><span class="w">
+</span><span class="cd">#' kelvin_to_fahrenheit(273.15)</span><span class="w">
+
+</span><span class="n">kelvin_to_fahrenheit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">temp_K</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">temp_C</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">kelvin_to_celsius</span><span class="p">(</span><span class="n">temp_K</span><span class="p">)</span><span class="w">
+  </span><span class="n">temp_F</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">celsius_to_fahrenheit</span><span class="p">(</span><span class="n">temp_C</span><span class="p">)</span><span class="w">
+  </span><span class="n">temp_F</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+  </blockquote>
+</blockquote>
+
+:ET

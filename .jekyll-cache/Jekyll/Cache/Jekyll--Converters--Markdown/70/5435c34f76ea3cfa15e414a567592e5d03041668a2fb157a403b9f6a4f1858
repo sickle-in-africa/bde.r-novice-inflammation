@@ -1,0 +1,52 @@
+I"o<p><code class="language-plaintext highlighter-rouge">knitr</code> is an R package that allows you to organize your notes, code, and results in a single document. It’s a great tool for “literate programming” – the idea that your code should be readable by humans as well as computers! It also keeps your writing and results together, so if you collect some new data or change how you clean the data, you just have to re-compile the document and you’re up to date!</p>
+
+<p>You write <code class="language-plaintext highlighter-rouge">knitr</code> documents in a simple plain text-like format called markdown, which allows you to format text using intuitive notation, so that you can focus on the content you’re writing and generating a well-formatted document when needed. In fact, you can turn your plain text (and R code and results) into an HTML file or, if you have an installation of LaTeX and <a href="https://pandoc.org/">Pandoc</a> on your machine, a PDF, or even a Word document (if you must!).</p>
+
+<p>To get started, install the <code class="language-plaintext highlighter-rouge">knitr</code> package.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">install.packages</span><span class="p">(</span><span class="s2">"knitr"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>When you click on File -&gt; New File, there is an option for “R Markdown…”. Choose this and accept the default options in the dialog box that follows (but note that you can also create presentations this way). Save the file and click on the “Knit HTML” button at the top of the script. Compare the output to the source.</p>
+
+<blockquote class="challenge">
+  <h2 id="formatting-text-in-markdown">Formatting Text in Markdown</h2>
+
+  <p>Visit <a href="https://rmarkdown.rstudio.com/authoring_basics.html">https://rmarkdown.rstudio.com/authoring_basics.html</a> and briefly check out some of the formatting options.</p>
+
+  <p>In the example document add</p>
+
+  <ul>
+    <li>Headers using <code class="language-plaintext highlighter-rouge">#</code></li>
+    <li>Emphasis using asterisk: *italics* and **bold**</li>
+    <li>Lists using <code class="language-plaintext highlighter-rouge">*</code> and numbered lists using <code class="language-plaintext highlighter-rouge">1.</code>, <code class="language-plaintext highlighter-rouge">2.</code>, etc.</li>
+    <li><strong>Bonus:</strong> Create a table</li>
+  </ul>
+</blockquote>
+
+<p>Markdown also supports LaTeX equation editing.
+We can display pretty equations by enclosing them in <code class="language-plaintext highlighter-rouge">$</code>,
+e.g., <code class="language-plaintext highlighter-rouge">$\alpha = \dfrac{1}{(1 - \beta)^2}$</code> renders as:
+<a href="https://latex.codecogs.com/gif.latex?%5Calpha%20%3D%20%5Cdfrac%7B1%7D%7B%281%20-%20%5Cbeta%29%5E2%7D"><img src="https://latex.codecogs.com/gif.latex?%5Calpha%20%3D%20%5Cdfrac%7B1%7D%7B%281%20-%20%5Cbeta%29%5E2%7D" alt="" /></a></p>
+
+<p>The top of the source (.Rmd) file has some header material in YAML format (enclosed by triple dashes).
+Some of this gets displayed in the output header, other of it provides formatting information to the conversion engine.</p>
+
+<p>To distinguish R code from text, RMarkdown uses three back-ticks followed by <code class="language-plaintext highlighter-rouge">{r}</code> to distinguish a “code chunk”.
+In RStudio, the keyboard shortcut to create a code chunk is <kbd>Command</kbd>+<kbd>Option</kbd>+<kbd>I</kbd> or <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>I</kbd>.</p>
+
+<p>A code chunk will set off the code and its results in the output document,
+but you can also print the results of code within a text block by enclosing code like so: <code class="language-plaintext highlighter-rouge">`r code-here`</code>.</p>
+
+<blockquote class="challenge">
+  <h2 id="use-knitr-to-produce-a-report">Use knitr to Produce a Report</h2>
+
+  <ol>
+    <li>Open a new .Rmd script and save it as inflammation_report.Rmd</li>
+    <li>Copy code from earlier into code chunks to read the inflammation data and plot average inflammation.</li>
+    <li>Add a few notes describing what the code does and what the main findings are. Include an in-line calculation of the median inflammation level.</li>
+    <li><code class="language-plaintext highlighter-rouge">knit</code> the document and view the html result.</li>
+  </ol>
+</blockquote>
+
+:ET

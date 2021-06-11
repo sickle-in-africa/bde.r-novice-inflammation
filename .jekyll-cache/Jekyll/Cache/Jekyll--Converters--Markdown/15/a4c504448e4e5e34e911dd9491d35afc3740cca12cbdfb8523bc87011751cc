@@ -1,0 +1,2 @@
+I"´<p>Use <code class="language-plaintext highlighter-rouge">commandArgs(trailingOnly = TRUE)</code> to obtain a vector of the command-line arguments that a program was run with.</p>
+:ET

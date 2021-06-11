@@ -1,0 +1,472 @@
+I"w�<p>Our previous lessons have shown us how to manipulate data, define our own functions, and repeat things.
+However, the programs we have written so far always do the same things, regardless of what data they’re given.
+We want programs to make choices based on the values they are manipulating.</p>
+
+<h3 id="saving-plots-to-a-file">Saving Plots to a File</h3>
+
+<p>So far, we have built a function <code class="language-plaintext highlighter-rouge">analyze</code> to plot summary statistics of the inflammation data:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">analyze</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="c1"># Plots the average, min, and max inflammation over time.</span><span class="w">
+  </span><span class="c1"># Input is character string of a csv file.</span><span class="w">
+  </span><span class="n">dat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="n">avg_day_inflammation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">avg_day_inflammation</span><span class="p">)</span><span class="w">
+  </span><span class="n">max_day_inflammation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">max_day_inflammation</span><span class="p">)</span><span class="w">
+  </span><span class="n">min_day_inflammation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="p">)</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">min_day_inflammation</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>And also built the function <code class="language-plaintext highlighter-rouge">analyze_all</code> to automate the processing of each data file:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">analyze_all</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">folder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"data"</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="c1"># Runs the function analyze for each file in the given folder</span><span class="w">
+  </span><span class="c1"># that contains the given pattern.</span><span class="w">
+  </span><span class="n">filenames</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">list.files</span><span class="p">(</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">folder</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pattern</span><span class="p">,</span><span class="w"> </span><span class="n">full.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">filenames</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">analyze</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>While these are useful in an interactive R session, what if we want to send our results to our collaborators?
+Since we currently have 12 data sets, running <code class="language-plaintext highlighter-rouge">analyze_all</code> creates 36 plots.
+Saving each of these individually would be tedious and error-prone.
+And in the likely situation that we want to change how the data is processed or the look of the plots, we would have to once again save all 36 before sharing the updated results with our collaborators.</p>
+
+<p>Here’s how we can save all three plots of the first inflammation data set in a pdf file:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pdf</span><span class="p">(</span><span class="s2">"inflammation-01.pdf"</span><span class="p">)</span><span class="w">
+</span><span class="n">analyze</span><span class="p">(</span><span class="s2">"data/inflammation-01.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">dev.off</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The function <code class="language-plaintext highlighter-rouge">pdf</code> redirects all the plots generated by R into a pdf file, which in this case we have named “inflammation-01.pdf”.
+After we are done generating the plots to be saved in the pdf file, we stop R from redirecting plots with the function <code class="language-plaintext highlighter-rouge">dev.off</code>.</p>
+
+<blockquote class="callout">
+  <h2 id="overwriting-plots">Overwriting Plots</h2>
+
+  <p>If you run <code class="language-plaintext highlighter-rouge">pdf</code> multiple times without running <code class="language-plaintext highlighter-rouge">dev.off</code>, you will save plots to the most recently opened file.
+However, you won’t be able to open the previous pdf files because the connections were not closed.
+In order to get out of this situation, you’ll need to run <code class="language-plaintext highlighter-rouge">dev.off</code> until all the pdf connections are closed.
+You can check your current status using the function <code class="language-plaintext highlighter-rouge">dev.cur</code>.
+If it says “pdf”, all your plots are being saved in the last pdf specified.
+If it says “null device” or “RStudioGD”, the plots will be visualized normally.</p>
+</blockquote>
+
+<p>We can update the <code class="language-plaintext highlighter-rouge">analyze</code> function so that it always saves the plots in a pdf.
+But that would make it more difficult to interactively test out new changes.
+It would be ideal if <code class="language-plaintext highlighter-rouge">analyze</code> would either save or not save the plots based on its input.</p>
+
+<h3 id="conditionals">Conditionals</h3>
+
+<p>In order to update our function to decide between saving or not, we need to write code that automatically decides between multiple options. The computer can make these deicisons through logical comparisons.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">num</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">37</span><span class="w">
+</span><span class="n">num</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">100</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] FALSE
+</code></pre></div></div>
+
+<p>As 37 is not greater than 100, this returns a <code class="language-plaintext highlighter-rouge">FALSE</code> object. And as you likely guessed, the opposite of <code class="language-plaintext highlighter-rouge">FALSE</code> is <code class="language-plaintext highlighter-rouge">TRUE</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">num</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">100</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] TRUE
+</code></pre></div></div>
+
+<p>We pair these logical comparison tools with what R calls a <a href="../reference.html#conditional-statement">conditional statement</a>, and it looks like this:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">num</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">37</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">num</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">100</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">print</span><span class="p">(</span><span class="s2">"greater"</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">print</span><span class="p">(</span><span class="s2">"not greater"</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="s2">"done"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] "not greater"
+[1] "done"
+</code></pre></div></div>
+
+<p>The second line of this code uses an <code class="language-plaintext highlighter-rouge">if</code> statement to tell R that we want to make a choice.
+If the following test is <code class="language-plaintext highlighter-rouge">TRUE</code>, the body of the <code class="language-plaintext highlighter-rouge">if</code> (i.e., the lines in the curly braces underneath it) are executed.
+If the test is <code class="language-plaintext highlighter-rouge">FALSE</code>, the body of the <code class="language-plaintext highlighter-rouge">else</code> is executed instead.
+Only one or the other is ever executed:</p>
+
+<p><img src="../fig/python-flowchart-conditional.svg" alt="Executing a Conditional" /></p>
+
+<p>In the example above, the test <code class="language-plaintext highlighter-rouge">num &gt; 100</code> returns the value <code class="language-plaintext highlighter-rouge">FALSE</code>, which is why the code inside the <code class="language-plaintext highlighter-rouge">if</code> block was skipped and the code inside the <code class="language-plaintext highlighter-rouge">else</code> statement was run instead.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">num</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">100</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] FALSE
+</code></pre></div></div>
+
+<p>And as you likely guessed, the opposite of <code class="language-plaintext highlighter-rouge">FALSE</code> is <code class="language-plaintext highlighter-rouge">TRUE</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">num</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">100</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] TRUE
+</code></pre></div></div>
+
+<p>Conditional statements don’t have to include an <code class="language-plaintext highlighter-rouge">else</code>.
+If there isn’t one, R simply does nothing if the test is false:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">num</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">53</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">num</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">100</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">print</span><span class="p">(</span><span class="s2">"num is greater than 100"</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We can also chain several tests together when there are more than two options.
+This makes it simple to write a function that returns the sign of a number:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sign</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">num</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">num</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nf">return</span><span class="p">(</span><span class="m">1</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">num</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nf">return</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nf">return</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="nf">sign</span><span class="p">(</span><span class="m">-3</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] -1
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">sign</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] 0
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">sign</span><span class="p">(</span><span class="m">2</span><span class="o">/</span><span class="m">3</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] 1
+</code></pre></div></div>
+
+<p>Note that when combining <code class="language-plaintext highlighter-rouge">else</code> and <code class="language-plaintext highlighter-rouge">if</code> in an <code class="language-plaintext highlighter-rouge">else if</code> statement, the <code class="language-plaintext highlighter-rouge">if</code> portion still requires a direct input condition.  This is never the case for the <code class="language-plaintext highlighter-rouge">else</code> statement alone, which is only executed if all other conditions go unsatisfied.
+Note that the test for equality uses two equal signs, <code class="language-plaintext highlighter-rouge">==</code>.</p>
+
+<blockquote class="callout">
+  <h2 id="other-comparisons">Other Comparisons</h2>
+
+  <p>Other tests include greater than or equal to (<code class="language-plaintext highlighter-rouge">&gt;=</code>), less than or equal to
+(<code class="language-plaintext highlighter-rouge">&lt;=</code>), and not equal to (<code class="language-plaintext highlighter-rouge">!=</code>).</p>
+</blockquote>
+
+<p>We can also combine tests.
+Two ampersands, <code class="language-plaintext highlighter-rouge">&amp;&amp;</code>, symbolize “and”.
+Two vertical bars, <code class="language-plaintext highlighter-rouge">||</code>, symbolize “or”.
+<code class="language-plaintext highlighter-rouge">&amp;&amp;</code> is only true if both parts are true:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="m">-1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">print</span><span class="p">(</span><span class="s2">"both parts are true"</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">print</span><span class="p">(</span><span class="s2">"at least one part is not true"</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] "at least one part is not true"
+</code></pre></div></div>
+
+<p>while <code class="language-plaintext highlighter-rouge">||</code> is true if either part is true:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="m">-1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">print</span><span class="p">(</span><span class="s2">"at least one part is true"</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">print</span><span class="p">(</span><span class="s2">"neither part is true"</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] "at least one part is true"
+</code></pre></div></div>
+
+<p>In this case, “either” means “either or both”, not “either one or the other but not both”.</p>
+
+<blockquote class="challenge">
+  <h2 id="choosing-plots-based-on-data">Choosing Plots Based on Data</h2>
+
+  <p>Write a function <code class="language-plaintext highlighter-rouge">plot_dist</code> that plots
+a boxplot if the length of the vector is greater than a specified threshold
+and a stripchart otherwise.
+To do this you’ll use the R functions <code class="language-plaintext highlighter-rouge">boxplot</code> and <code class="language-plaintext highlighter-rouge">stripchart</code>.</p>
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/inflammation-01.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="n">plot_dist</span><span class="p">(</span><span class="n">dat</span><span class="p">[,</span><span class="w"> </span><span class="m">10</span><span class="p">],</span><span class="w"> </span><span class="n">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w">     </span><span class="c1"># day (column) 10</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p><img src="../fig/rmd-04-cond-using-conditions-01-1.png" title="plot of chunk using-conditions-01" alt="plot of chunk using-conditions-01" width="612" style="display: block; margin: auto;" /></p>
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot_dist</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">],</span><span class="w"> </span><span class="n">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w">  </span><span class="c1"># samples (rows) 1-5 on day (column) 10</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p><img src="../fig/rmd-04-cond-using-conditions-01-2.png" title="plot of chunk using-conditions-01" alt="plot of chunk using-conditions-01" width="612" style="display: block; margin: auto;" /></p>
+
+  <blockquote class="solution">
+    <h2 id="solution">Solution</h2>
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot_dist</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">threshold</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">stripchart</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+  </blockquote>
+</blockquote>
+
+<blockquote class="challenge">
+  <h2 id="histograms-instead">Histograms Instead</h2>
+
+  <p>One of your collaborators prefers to see the distributions of the larger vectors
+as a histogram instead of as a boxplot.
+In order to choose between a histogram and a boxplot
+we will edit the function <code class="language-plaintext highlighter-rouge">plot_dist</code> and add an additional argument <code class="language-plaintext highlighter-rouge">use_boxplot</code>.
+By default we will set <code class="language-plaintext highlighter-rouge">use_boxplot</code> to <code class="language-plaintext highlighter-rouge">TRUE</code>
+which will create a boxplot when the vector is longer than <code class="language-plaintext highlighter-rouge">threshold</code>.
+When <code class="language-plaintext highlighter-rouge">use_boxplot</code> is set to <code class="language-plaintext highlighter-rouge">FALSE</code>,
+<code class="language-plaintext highlighter-rouge">plot_dist</code> will instead plot a histogram for the larger vectors.
+As before, if the length of the vector is shorter than <code class="language-plaintext highlighter-rouge">threshold</code>,
+<code class="language-plaintext highlighter-rouge">plot_dist</code> will create a stripchart.
+A histogram is made with the <code class="language-plaintext highlighter-rouge">hist</code> command in R.</p>
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/inflammation-01.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="n">plot_dist</span><span class="p">(</span><span class="n">dat</span><span class="p">[,</span><span class="w"> </span><span class="m">10</span><span class="p">],</span><span class="w"> </span><span class="n">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">use_boxplot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">   </span><span class="c1"># day (column) 10 - create boxplot</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p><img src="../fig/rmd-04-cond-conditional-challenge-hist-1.png" title="plot of chunk conditional-challenge-hist" alt="plot of chunk conditional-challenge-hist" width="612" style="display: block; margin: auto;" /></p>
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot_dist</span><span class="p">(</span><span class="n">dat</span><span class="p">[,</span><span class="w"> </span><span class="m">10</span><span class="p">],</span><span class="w"> </span><span class="n">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">use_boxplot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">  </span><span class="c1"># day (column) 10 - create histogram</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p><img src="../fig/rmd-04-cond-conditional-challenge-hist-2.png" title="plot of chunk conditional-challenge-hist" alt="plot of chunk conditional-challenge-hist" width="612" style="display: block; margin: auto;" /></p>
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot_dist</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">],</span><span class="w"> </span><span class="n">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w">                    </span><span class="c1"># samples (rows) 1-5 on day (column) 10</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p><img src="../fig/rmd-04-cond-conditional-challenge-hist-3.png" title="plot of chunk conditional-challenge-hist" alt="plot of chunk conditional-challenge-hist" width="612" style="display: block; margin: auto;" /></p>
+
+  <blockquote class="solution">
+    <h2 id="solution-1">Solution</h2>
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot_dist</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">threshold</span><span class="p">,</span><span class="w"> </span><span class="n">use_boxplot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">use_boxplot</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+   </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">use_boxplot</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+   </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="n">stripchart</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+  </blockquote>
+</blockquote>
+
+<blockquote class="challenge">
+  <h2 id="find-the-maximum-inflammation-score">Find the Maximum Inflammation Score</h2>
+
+  <p>Find the file containing the patient with the highest average inflammation score.
+Print the file name, the patient number (row number) and the value of the maximum average inflammation score.</p>
+
+  <p>Tips:</p>
+
+  <ol>
+    <li>Use variables to store the maximum average and update it as you go through files and patients.</li>
+    <li>You can use nested loops (one loop is inside the other) to go through the files as well as through the patients in each file (every row).</li>
+  </ol>
+
+  <p>Complete the code below:</p>
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">filenames</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">list.files</span><span class="p">(</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"data"</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"inflammation-[0-9]{2}.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">full.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">filename_max</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="c1"># filename where the maximum average inflammation patient is found</span><span class="w">
+</span><span class="n">patient_max</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="c1"># index (row number) for this patient in this file</span><span class="w">
+</span><span class="n">average_inf_max</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="c1"># value of the average inflammation score for this patient</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">filenames</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">dat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="n">dat.means</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span><span class="w">
+  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">patient_index</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">dat.means</span><span class="p">)){</span><span class="w">
+    </span><span class="n">patient_average_inf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dat.means</span><span class="p">[</span><span class="n">patient_index</span><span class="p">]</span><span class="w">
+    </span><span class="c1"># Add your code here ...</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">filename_max</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">patient_max</span><span class="p">)</span><span class="w">
+</span><span class="n">print</span><span class="p">(</span><span class="n">average_inf_max</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <blockquote class="solution">
+    <h2 id="solution-2">Solution</h2>
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Add your code here ...</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">patient_average_inf</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">average_inf_max</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">average_inf_max</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">patient_average_inf</span><span class="w">
+  </span><span class="n">filename_max</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">f</span><span class="w">
+  </span><span class="n">patient_max</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">patient_index</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+  </blockquote>
+</blockquote>
+
+<h3 id="saving-automatically-generated-figures">Saving Automatically Generated Figures</h3>
+
+<p>Now that we know how to have R make decisions based on input values,
+let’s update <code class="language-plaintext highlighter-rouge">analyze</code>:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">analyze</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="c1"># Plots the average, min, and max inflammation over time.</span><span class="w">
+  </span><span class="c1"># Input:</span><span class="w">
+  </span><span class="c1">#    filename: character string of a csv file</span><span class="w">
+  </span><span class="c1">#    output: character string of pdf file for saving</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nf">is.null</span><span class="p">(</span><span class="n">output</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">pdf</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="n">dat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="n">avg_day_inflammation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">avg_day_inflammation</span><span class="p">)</span><span class="w">
+  </span><span class="n">max_day_inflammation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">max_day_inflammation</span><span class="p">)</span><span class="w">
+  </span><span class="n">min_day_inflammation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="p">)</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">min_day_inflammation</span><span class="p">)</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nf">is.null</span><span class="p">(</span><span class="n">output</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">dev.off</span><span class="p">()</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We added an argument, <code class="language-plaintext highlighter-rouge">output</code>, that by default is set to <code class="language-plaintext highlighter-rouge">NULL</code>.
+An <code class="language-plaintext highlighter-rouge">if</code> statement at the beginning checks the argument <code class="language-plaintext highlighter-rouge">output</code> to decide whether or not to save the plots to a pdf.
+Let’s break it down.
+The function <code class="language-plaintext highlighter-rouge">is.null</code> returns <code class="language-plaintext highlighter-rouge">TRUE</code> if a variable is <code class="language-plaintext highlighter-rouge">NULL</code> and <code class="language-plaintext highlighter-rouge">FALSE</code> otherwise.
+The exclamation mark, <code class="language-plaintext highlighter-rouge">!</code>, stands for “not”.
+Therefore the line in the <code class="language-plaintext highlighter-rouge">if</code> block is only executed if <code class="language-plaintext highlighter-rouge">output</code> is “not null”.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">output</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">NULL</span><span class="w">
+</span><span class="nf">is.null</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] TRUE
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">!</span><span class="nf">is.null</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] FALSE
+</code></pre></div></div>
+
+<p>Now we can use <code class="language-plaintext highlighter-rouge">analyze</code> interactively, as before,</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">analyze</span><span class="p">(</span><span class="s2">"data/inflammation-01.csv"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="../fig/rmd-04-cond-inflammation-01-1.png" title="plot of chunk inflammation-01" alt="plot of chunk inflammation-01" width="612" style="display: block; margin: auto;" /><img src="../fig/rmd-04-cond-inflammation-01-2.png" title="plot of chunk inflammation-01" alt="plot of chunk inflammation-01" width="612" style="display: block; margin: auto;" /><img src="../fig/rmd-04-cond-inflammation-01-3.png" title="plot of chunk inflammation-01" alt="plot of chunk inflammation-01" width="612" style="display: block; margin: auto;" /></p>
+
+<p>but also use it to save plots,</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">analyze</span><span class="p">(</span><span class="s2">"data/inflammation-01.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"inflammation-01.pdf"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Before going further, we will create a directory <code class="language-plaintext highlighter-rouge">results</code> for saving our plots.
+It is <a href="http://swcarpentry.github.io/good-enough-practices-in-scientific-computing/">good practice</a> in data analysis projects to save all output to a directory separate from the data and analysis code.
+You can create this directory using the shell command <a href="https://swcarpentry.github.io/shell-novice/03-create/">mkdir</a>, or the R function <code class="language-plaintext highlighter-rouge">dir.create()</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dir.create</span><span class="p">(</span><span class="s2">"results"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now run <code class="language-plaintext highlighter-rouge">analyze</code> and save the plot in the <code class="language-plaintext highlighter-rouge">results</code> directory,</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">analyze</span><span class="p">(</span><span class="s2">"data/inflammation-01.csv"</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"results/inflammation-01.pdf"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This now works well when we want to process one data file at a time, but how can we specify the output file in <code class="language-plaintext highlighter-rouge">analyze_all</code>?
+We need to do two things:</p>
+
+<ol>
+  <li>Substitute the filename ending “csv” with “pdf”.</li>
+  <li>Save the plot to the <code class="language-plaintext highlighter-rouge">results</code> directory.</li>
+</ol>
+
+<p>To change the extension to “pdf”, we will use the function <code class="language-plaintext highlighter-rouge">sub</code>,</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">f</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"inflammation-01.csv"</span><span class="w">
+</span><span class="n">sub</span><span class="p">(</span><span class="s2">"csv"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] "inflammation-01.pdf"
+</code></pre></div></div>
+<p>To add the “results” directory to the filename use the function <code class="language-plaintext highlighter-rouge">file.path</code>,</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">file.path</span><span class="p">(</span><span class="s2">"results"</span><span class="p">,</span><span class="w"> </span><span class="n">sub</span><span class="p">(</span><span class="s2">"csv"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] "results/inflammation-01.pdf"
+</code></pre></div></div>
+
+<p>Now let’s update <code class="language-plaintext highlighter-rouge">analyze_all</code>:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">analyze_all</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="c1"># Directory name containing the data</span><span class="w">
+  </span><span class="n">data_dir</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"data"</span><span class="w">
+  </span><span class="c1"># Directory name for results</span><span class="w">
+  </span><span class="n">results_dir</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"results"</span><span class="w">
+  </span><span class="c1"># Runs the function analyze for each file in the current working directory</span><span class="w">
+  </span><span class="c1"># that contains the given pattern.</span><span class="w">
+  </span><span class="n">filenames</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">list.files</span><span class="p">(</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_dir</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pattern</span><span class="p">)</span><span class="w">
+  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">filenames</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">pdf_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">file.path</span><span class="p">(</span><span class="n">results_dir</span><span class="p">,</span><span class="w"> </span><span class="n">sub</span><span class="p">(</span><span class="s2">"csv"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">))</span><span class="w">
+    </span><span class="n">analyze</span><span class="p">(</span><span class="n">file.path</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">),</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pdf_name</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now we can save all of the results with just one line of code:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">analyze_all</span><span class="p">(</span><span class="s2">"inflammation.*csv"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now if we need to make any changes to our analysis, we can edit the <code class="language-plaintext highlighter-rouge">analyze</code> function and quickly regenerate all the figures with <code class="language-plaintext highlighter-rouge">analyze_all</code>.</p>
+
+<blockquote class="challenge">
+  <h2 id="changing-the-behavior-of-the-plot-command">Changing the Behavior of the Plot Command</h2>
+
+  <p>One of your collaborators asks if you can recreate the figures with lines instead of points.
+Find the relevant argument to <code class="language-plaintext highlighter-rouge">plot</code> by reading the documentation (<code class="language-plaintext highlighter-rouge">?plot</code>),
+update <code class="language-plaintext highlighter-rouge">analyze</code>, and then recreate all the figures with <code class="language-plaintext highlighter-rouge">analyze_all</code>.</p>
+
+  <blockquote class="solution">
+    <h2 id="solution-3">Solution</h2>
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">analyze</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="c1"># Plots the average, min, and max inflammation over time.</span><span class="w">
+  </span><span class="c1"># Input:</span><span class="w">
+  </span><span class="c1">#    filename: character string of a csv file</span><span class="w">
+  </span><span class="c1">#    output: character string of pdf file for saving</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nf">is.null</span><span class="p">(</span><span class="n">output</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">pdf</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="n">dat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="n">avg_day_inflammation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">avg_day_inflammation</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"l"</span><span class="p">)</span><span class="w">
+  </span><span class="n">max_day_inflammation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">max_day_inflammation</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"l"</span><span class="p">)</span><span class="w">
+  </span><span class="n">min_day_inflammation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="p">)</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">min_day_inflammation</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"l"</span><span class="p">)</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nf">is.null</span><span class="p">(</span><span class="n">output</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">dev.off</span><span class="p">()</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+  </blockquote>
+</blockquote>
+
+:ET

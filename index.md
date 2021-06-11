@@ -46,9 +46,24 @@ We want to:
 
 To do all that, we'll have to learn a little bit about programming.
 
+> ## Learner experience survey
+> On completion of the module, *please* complete this survey:
+>
+> <div align="center"><a href="https://protect-za.mimecast.com/s/BRYGCZ4GJ0iq3vNmUzad87">Learners experience survey link</a></div>
+>
+> Your feedback will be invaluable to developing the module for future learners!
+{: .callout}
+
 > ## Prerequisites
 >
 > Learners need to understand the concepts of files and directories
 > (including the working directory).
 > We often use RStudio to teach this lesson, but it is not required.
 {: .prereq}
+
+## Acknowledgements
+We acknowledge the financial support from the [National Heart, Lung, and Blood Institute](https://www.nhlbi.nih.gov/) of the [National Institutes of Health](https://www.nih.gov/) who funds SickleInAfrica. The views and content expressed on this website do not necessarily reflect the views and opinions of our funders. 
+
+The content of this module was initially developed by the SADaCC team for SickleInAfrica.  
+
+We extend our gratitude to the [Software Carpentry project](https://software-carpentry.org/) who built the website template used by this module and wrote the content. See github pages for credit lists.
